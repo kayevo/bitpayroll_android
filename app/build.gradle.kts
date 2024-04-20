@@ -30,10 +30,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
+    val lifecycle_version = "2.7.0"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -42,4 +45,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // ViewModel utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    // Lifecycle utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
+    // Saved state module for ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 }
