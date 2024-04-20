@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kayevo.bitpayroll_android.application.Database
 import kotlinx.coroutines.launch
 
 class LoginViewModel(): ViewModel() {
@@ -12,7 +13,19 @@ class LoginViewModel(): ViewModel() {
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            _isLoggedIn.postValue(true);
+            Database.companies.find {
+                it.connectedEmployeeEmails.find {
+                    it==email
+                } == email
+            }?.let {
+                _isLoggedIn.postValue(true);
+            }?: run {
+                Database.companies.find { it.email == email }?.let {
+                    _isLoggedIn.postValue(true);
+                }?: run {
+                    _isLoggedIn.postValue(false);
+                }
+            }
         }
     }
 }
